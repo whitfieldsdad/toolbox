@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  mitre-attack-navigator:
+    build: https://github.com/mitre-attack/attack-navigator.git#develop
+    ports:
+      - "4200:4200"
