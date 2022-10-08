@@ -1,0 +1,19 @@
+version: "3.8"
+
+volumes:
+  registry-data:
+  registry-certs:
+  registry-auth:
+
+services:
+  registry:
+    container_name: "registry"
+    restart: always
+    image: registry:2
+    ports:
+      - "5000:5000"
+    volumes:
+      - registry-data:/var/lib/registry
+      - registry-certs:/certs
+      - registry-auth:/auth
+    platform: linux/amd64
