@@ -1,0 +1,36 @@
+version: "3.8"
+
+volumes:
+  redis:
+  redisinsight:
+
+services:
+  redis:
+    container_name: redis
+    image: "redislabs/redismod"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+    entrypoint: >
+      redis-server
+        --loadmodule /usr/lib/redis/modules/rejson.so
+        --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    platform: linux/amd64
+    network_mode: bridge
+
+  redisinsight:
+    container_name: redisinsight
+    image: redislabs/redisinsight:latest
+    ports:
+      - '8001:8001'
+    volumes:
+      - redisinsight:/db
+    platform: linux/amd64
+    network_mode: bridge
